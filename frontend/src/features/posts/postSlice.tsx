@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import produce from "immer";
 import { RootState } from "../../app/store";
-import { fetchPosts, createPost } from "./postAPI";
+import { fetchPosts, createPost, destroyPost } from "./postAPI";
 
 export enum Statuses {
     Initial = "not feched",
@@ -16,6 +16,17 @@ export interface PostFormData {
         id?: string;
         title?: string;
         body?: string;
+    }
+}
+
+export interface PostUpdateData {
+    post_id: number;
+    post: PostState;
+}
+
+export interface PostDeleteData {
+    post: {
+        post_id: number;
     }
 }
 
@@ -71,6 +82,19 @@ export const createPostAsync = createAsyncThunk(
     }
 )
 
+// 投稿の削除
+export const destroyPostAsync = createAsyncThunk(
+    'posts/destroyPost',
+    async (payload: PostDeleteData) => {
+        try {
+            const response = await destroyPost(payload);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
 export const postSlice = createSlice({
     name: "posts",
     initialState,
@@ -96,7 +120,7 @@ export const postSlice = createSlice({
                     draftState.status = Statuses.Error;
                 })
             })
-            /** FIXME:リファクタ必要 */
+            /** FIXME:リファクタ必要 作成処理 */
             .addCase(createPostAsync.pending, (state) => {
                 return produce(state, (draftState) => {
                     draftState.status = Statuses.Loading;
@@ -109,6 +133,23 @@ export const postSlice = createSlice({
                 })
             })
             .addCase(createPostAsync.rejected, (state) => {
+                return produce(state, (draftState) => {
+                    draftState.status = Statuses.Error;
+                })
+            })
+            /** FIXME:リファクタ必要 削除処理 */
+            .addCase(destroyPostAsync.pending, (state) => {
+                return produce(state, (draftState) => {
+                    draftState.status = Statuses.Loading;
+                })
+            })
+            .addCase(destroyPostAsync.fulfilled, (state, action) => {
+                return produce(state, (draftState) => {
+                    draftState.posts = action.payload;
+                    draftState.status = Statuses.UpToDate;
+                })
+            })
+            .addCase(destroyPostAsync.rejected, (state) => {
                 return produce(state, (draftState) => {
                     draftState.status = Statuses.Error;
                 })
