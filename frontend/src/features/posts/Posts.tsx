@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../app/hooks';
 import { AppDispatch } from '../../app/store';
 import Post from './Post';
+import PostForm from './PostForm';
 import { selectPosts, fetchPostsAsync, selectStatus, Statuses } from './postSlice'
 
 function Posts() {
@@ -23,7 +24,7 @@ function Posts() {
       contents = <div className='card'>
           <div className='card-body'>
               <h3>{status}</h3>
-              {/* form */}
+              <PostForm />
               {posts && posts.length > 0 && posts.map(post => {
                   return <div key={post.id} style={{ margin: "40px 0" }}>
                       <Post

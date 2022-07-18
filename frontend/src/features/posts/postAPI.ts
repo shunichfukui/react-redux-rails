@@ -1,4 +1,4 @@
-import { PostsState,  } from "./postSlice";
+import { PostFormData, PostsState } from "./postSlice";
 
 const API_URL = "http://localhost:3000";
 
@@ -7,11 +7,30 @@ export async function fetchPosts() {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            'Access-Control-Allow-Methods': 'PUT, DELETE, PATCH, GET'
+            'Access-Control-Allow-Methods': 'GET'
         },
     }).then((response) => response.json())
     .catch((error) => {
         console.log(error);
         return {} as PostsState;
-    })
+    });
+}
+
+export async function createPost(payload: PostFormData) {
+    const post =payload.post;
+
+    return fetch(`${API_URL}/posts.json`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            'Access-Control-Allow-Methods': 'POST'
+        },
+        body: JSON.stringify({
+            post: post
+        })
+    }).then((response) => response.json())
+    .catch((error) => {
+        console.log(error);
+        return {} as PostsState;
+    });
 }
