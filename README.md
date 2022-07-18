@@ -1,24 +1,13 @@
-# README
+# 使用技術
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails 7.0✨
+React
+Redux
+Typescript
 
-Things you may want to cover:
+ツイッタークローンみたいな？
 
-* Ruby version
+参考動画
+https://www.youtube.com/watch?v=ZGnMqKg-Cq4
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+<img width="1033" alt="スクリーンショット 2022-07-18 17 22 10" src="https://user-images.githubusercontent.com/68207981/179471941-a6b4763b-a699-49a7-bb4c-0f29f1ef10a4.png">
